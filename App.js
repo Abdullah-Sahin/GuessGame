@@ -1,20 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, ImageBackground } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import StartGameScreen from "./zzcomponents/StartGameScreen";
+import GameScreen from "./zzcomponents/GameScreen";
+import { useState } from "react";
 
 export default function App() {
+
+  const [confirmedNumber, setConfirmedNumber] = useState();
+
+  const confirmNumberHandler = (enteredNumber) => {
+    setConfirmedNumber(enteredNumber);
+  }
+
+  let screen = <StartGameScreen confirmInput={confirmNumberHandler}/>
+
+  if(confirmedNumber){
+    screen = <GameScreen />
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+
+    <LinearGradient
+      style={styles.appContainer}
+      colors={["#1d07acdc", "#ebc248ff"]}
+    >
+      <ImageBackground source={require("./assets/stairs.jpg")} style={styles.appContainer} imageStyle={styles.imageStyle}>
+        {screen}
+      </ImageBackground>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  appContainer: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
+  imageStyle: {
+    opacity: 0.2
+  }
 });
